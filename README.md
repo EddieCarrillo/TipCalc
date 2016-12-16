@@ -4,7 +4,7 @@
 
 Submitted by: **Eduardo Cariillo**
 
-Time spent: **X** hours spent in total
+Time spent: **15** hours spent in total
 
 ## User Stories
 
@@ -34,14 +34,11 @@ GIF created with [LiceCap](http://www.cockos.com/licecap/).
 ## Notes
 
 Describe any challenges encountered while building the app.
-I had an annoying bug when I tried to use UserDefaults to save the bill
-across app restarts it would not save. But when I used to UserDefaults to
-save the index of the default index it would be fine. So, I was confused and
-I realized I did not call synchronize after saving the bill. After putting
-in the synchronize it still did not save the bill value. So after a painful few hours I figured that I was making the call to calculateTip in my viewWillLoad lifecycle function and it always returned a 0 b/c the view never finshed being created an always returned an invalid string and then 0. So moving the call the viewDidAppear fixed the bug.
+I had an annoying bug. Whenever I attempted to use UserDefaults to save the bill
+across app restarts it would fail to do so. This was odd because I had UserDefaults in other parts of the app succesfully. So, I was confused and after more searching I realized I did not call synchronize after saving the bill. So I made sure to make a call to synchronize after saving the bill value. Still no success. So after a painful few hours I figured that I was making the call to calculateTip in the viewWillLoad lifecycle function and it always returned a 0. This was because the view never finshed being created an always returned an invalid string and then 0. Moving my call to calculateBill viewDidAppear end up fixing the bug. (I made a call to calculateBill manually so that if the default tip was changed that the tip and the total reflected that change when the user switched back to the main screen.)
 ## License
 
-    Copyright [yyyy] [name of copyright owner]
+    Copyright [2016] [Eduardo Carrillo]
 
     Licensed under the Apache License, Version 2.0 (the "License");
     you may not use this file except in compliance with the License.
