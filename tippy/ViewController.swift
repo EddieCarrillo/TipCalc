@@ -10,6 +10,8 @@ import UIKit
 
 class ViewController: UIViewController {
     
+    //_________Views______________________
+    
     @IBOutlet var backgroundView: UIView!
     @IBOutlet weak var tipTotal: UILabel!
     @IBOutlet weak var tipLabel: UILabel!
@@ -21,21 +23,26 @@ class ViewController: UIViewController {
     @IBOutlet weak var tipGroup: UIView!
     @IBOutlet weak var equalSign: UILabel!
     @IBOutlet weak var additionSign: UILabel!
-    //___________Global constants__________________________
+
   
     
        //___________Colors____________________________
     //Light color theme
-    let darkPrimaryColor = UIColor.black
-    let darkSecondaryColor = UIColor.white
+    let darkPrimaryColor = UIColor.white
+    let darkSecondaryColor = UIColor.black
     //Dark color theme
-    let lightPrimaryColor = UIColor.white
-    let lightSecondaryColor = UIColor.black
+    let lightPrimaryColor = UIColor.black
+    let lightSecondaryColor = UIColor.white
     //Cool blue color theme
     var coolSecondaryColor = UIColor.init(displayP3Red: 0.0, green: 33/255.0, blue: 71/255.0, alpha: 1.0)
     let coolPrimaryColor = UIColor.init(displayP3Red: (28/255.0), green: (211/255.0),
                                         blue: (255/255.0), alpha: 1.0)
+    
+    
+    
+    //Used for saving data across app restarts
     let defaults = UserDefaults.standard
+    
     var keyBoardHeight : CGFloat = 0.0
     
     override func viewWillAppear(_ animated: Bool) {
@@ -82,7 +89,6 @@ class ViewController: UIViewController {
         })
         defaults.synchronize()
         let val = defaults.double(forKey: "bill")
-        
         defaults.synchronize()
         
         updateUIBill(value: val )
@@ -109,6 +115,7 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         print("view did load")
         super.viewDidLoad()
+        //Call keyboard willShow then the keyboard is being created so we have access to the keyboard height
         NotificationCenter.default.addObserver(self, selector: .keyboardWillShow, name: .UIKeyboardWillShow, object: nil)
         
     }
@@ -134,11 +141,13 @@ class ViewController: UIViewController {
     }
     
     @IBAction func editingStarted(_ sender: AnyObject) {
+        //When user starts using the keyboard move the views up so user can see them over the keyboard
         UIView.animate(withDuration: 0.2, animations: {
             self.tipGroup.transform = CGAffineTransform(translationX: 0, y: -(CGFloat)(self.keyBoardHeight))
         })
     }
     @IBAction func editingStopped(_ sender: AnyObject) {
+        //When user is finished editing put the views back down to bottom of the screen
         UIView.animate(withDuration: 0.2, animations: {
             self.tipGroup.transform = CGAffineTransform(translationX: 0, y: 0.0)
         })
@@ -166,21 +175,25 @@ class ViewController: UIViewController {
         saveBill(bill: bill)
     }
     
-    
+    /*Resets the bill to the default value 0. So save bill value as 0 accross screen restart
+      and make sure bill UITextfield shows nothing*/
     func resetToDefaults(){
         print("Reset to defaults")
         saveBill(bill: 0.0)
         updateUIBill(value: 0.0)
     }
     
+    /*Update the bill text field based on value passed in. If the number is 0
+     then show the empty string. Also if the value is an integer make sure it appears
+     as an integer*/
     func updateUIBill(value: Double){
         let string : String
-       
         if (value == 0.0){
             string  = ""
         }else{
             let formatter = NumberFormatter()
             formatter.minimumFractionDigits = 0
+            
             formatter.maximumFractionDigits = 2
             string = formatter.string(from: NSNumber(value:value))!
         }
@@ -197,27 +210,30 @@ class ViewController: UIViewController {
         billField.backgroundColor = primaryColor
         billField.textColor = secondaryColor
         billField.tintColor = secondaryColor
-        //Update the tip field
-        tipTotal.textColor = secondaryColor
-        //Update the total
-        totalLabel.textColor = secondaryColor
-        //Update the segmented control colors
-        tipControl.tintColor = secondaryColor
-        tipControl.backgroundColor = primaryColor
-        //Update the background color the app
-        backgroundView.backgroundColor = primaryColor
-        //Update the addition and equals sign
-        equalSign.textColor = secondaryColor
-        additionSign.textColor = secondaryColor
         //Update the navigation bar
         let navBar = self.navigationController?.navigationBar
         //Update the tool bar
-        navBar?.barTintColor = secondaryColor.withAlphaComponent(0.3)
+        navBar?.barTintColor = secondaryColor.withAlphaComponent(1.0)
+        navBar?.backgroundColor = secondaryColor
+        
         navBar?.titleTextAttributes = [NSForegroundColorAttributeName : primaryColor]
         settingsButton.tintColor = primaryColor
+        //Update the background color the app
+        backgroundView.backgroundColor = primaryColor
+        //Update the tip field
+        tipTotal.textColor = primaryColor
+        //Update the total
+        totalLabel.textColor = primaryColor
+        //Update the segmented control colors
+        tipControl.tintColor = primaryColor
+        tipControl.backgroundColor = secondaryColor
+        //Update the addition and equals sign
+        equalSign.textColor = primaryColor
+        additionSign.textColor = primaryColor
         //Update the color of the UIVIew group
-        tipGroup.tintColor = primaryColor
-        tipGroup.backgroundColor = primaryColor
+        tipGroup.tintColor = secondaryColor
+        tipGroup.backgroundColor = secondaryColor
+        
         
     }
     
