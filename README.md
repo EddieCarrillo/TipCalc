@@ -25,11 +25,12 @@ The following **additional** features are implemented:
 - [x] App icon for app start up
 - [x] Custom settings button icon
 
+
 ## Video Walkthrough 
 
 Here's a walkthrough of implemented user stories:
 
-<img src='http://i.imgur.com/MxQ5MqC.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
+<img src='http://i.imgur.com/zdjSLG8.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
 
 GIF created with [LiceCap](http://www.cockos.com/licecap/).
 
